@@ -389,6 +389,7 @@ header {
 
 .gallery {
     background-blend-mode: multiply; 
+    color: var(--clr-light);
     text-align: center;    
 }
 .portfolio {
@@ -397,7 +398,6 @@ header {
 }
 
 .portfolio__item {
-    background: var(--clr-accent);
     overflow: hidden;
 }
 
@@ -414,7 +414,7 @@ header {
 
 .portfolio__img:hover,
 .portfolio__item:focus .portfolio__img {
-    transform: scale(1.2);
+    transform: scale(1.3);
     opacity: .5;
 }
 
