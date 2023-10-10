@@ -399,6 +399,8 @@ header {
 
 .portfolio__item {
     overflow: hidden;
+    color: var(--clr-light);
+
 }
 
 .portfolio__img {
