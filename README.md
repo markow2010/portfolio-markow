@@ -1,2 +1,2 @@
-# markow2010.github.io
-My personal Website
+# markow2010.github.io/portfolio-markow 
+My personal Website // Press on the link above
