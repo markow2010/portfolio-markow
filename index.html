@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Markow Moussa — Software Engineer. Full-stack developer building data-driven apps in Python, Java, and the web.">
+        <meta name="theme-color" content="#050812">
         <title>Markow Moussa — Software Engineer</title>
         <link rel="stylesheet" href="css/style.css">
         <link rel="icon" type="image/x-icon" href="img/favv.ico">
@@ -11,13 +12,29 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;600;900&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+            }
+        }
+        </script>
     </head>
     <body>
+        <!-- Custom cursor -->
+        <div class="cursor" aria-hidden="true"></div>
+        <div class="cursor-dot" aria-hidden="true"></div>
+
+        <!-- Backgrounds (WebGL canvas injected by JS) -->
+        <canvas class="bg-webgl" aria-hidden="true"></canvas>
         <div class="bg-mesh" aria-hidden="true"></div>
         <div class="bg-grid" aria-hidden="true"></div>
 
+        <!-- Theme reveal overlay -->
+        <div class="theme-reveal" aria-hidden="true"></div>
+
         <header>
-            <a href="index.html" class="logo">
+            <a href="index.html" class="logo" data-magnetic data-easter="logo">
                 <img src="img/logo.png" alt="Markow Moussa logo">
             </a>
             <button class="nav-toggle" aria-label="toggle navigation">
@@ -29,9 +46,19 @@
                     <li class="nav__item"><a href="#stack" class="nav__link">Stack</a></li>
                     <li class="nav__item"><a href="#about" class="nav__link">About</a></li>
                     <li class="nav__item"><a href="#work" class="nav__link">Work</a></li>
+                    <li class="nav__item"><a href="#stats" class="nav__link">Stats</a></li>
                     <li class="nav__item"><a href="#contact" class="nav__link">Contact</a></li>
                 </ul>
             </nav>
+
+            <div class="controls" role="group" aria-label="Preferences">
+                <button class="ctrl-btn" id="themeToggle" aria-label="Toggle theme" data-magnetic>
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                <button class="ctrl-btn" id="soundToggle" aria-label="Toggle sounds" aria-pressed="false" data-magnetic>
+                    <i class="fa-solid fa-volume-xmark"></i>
+                </button>
+            </div>
         </header>
 
         <!-- Hero -->
@@ -40,20 +67,21 @@
                 <p class="hero__eyebrow"><span class="status-dot"></span> Available for opportunities</p>
                 <h1 class="hero__title">
                     <span class="hero__hello">Hi, I'm</span>
-                    <strong class="hero__name">Markow Moussa</strong>
+                    <strong class="hero__name" data-scramble>Markow Moussa</strong>
                 </h1>
-                <p class="hero__subtitle">
-                    <span class="typed">Software&nbsp;Engineer</span>
-                </p>
+                <div class="terminal" aria-live="polite">
+                    <span class="terminal__prompt">$</span>
+                    <span class="terminal__cmd" id="termCmd"></span><span class="terminal__cursor"></span>
+                </div>
                 <p class="hero__pitch">
                     Full-stack developer building <em>data-driven</em> web apps &mdash;
                     from graph-visualization platforms in Python &amp; Flask
                     to client/server systems and database-backed tools.
                 </p>
                 <div class="hero__cta">
-                    <a href="#work" class="btn btn--primary">View My Work <i class="fa-solid fa-arrow-right"></i></a>
-                    <a href="https://github.com/markow2010" class="btn btn--ghost" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> GitHub</a>
-                    <a href="https://github.com/markow2010/Resume/blob/main/Moussa%20Resume%202.pdf" class="btn btn--ghost" target="_blank" rel="noopener"><i class="fa-solid fa-file-lines"></i> Resume</a>
+                    <a href="#work" class="btn btn--primary" data-magnetic>View My Work <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="https://github.com/markow2010" class="btn btn--ghost" target="_blank" rel="noopener" data-magnetic><i class="fa-brands fa-github"></i> GitHub</a>
+                    <a href="https://github.com/markow2010/Resume/blob/main/Moussa%20Resume%202.pdf" class="btn btn--ghost" target="_blank" rel="noopener" data-magnetic><i class="fa-solid fa-file-lines"></i> Resume</a>
                 </div>
             </div>
             <div class="hero__visual">
@@ -70,6 +98,9 @@
                 <div class="floating-chip floating-chip--3">SQL</div>
                 <div class="floating-chip floating-chip--4">Java</div>
             </div>
+            <a href="#stack" class="scroll-indicator" aria-label="Scroll down">
+                <span></span>
+            </a>
         </section>
 
         <!-- Tech Stack -->
@@ -81,7 +112,7 @@
             </div>
 
             <div class="stack__grid">
-                <div class="stack__card" data-tilt>
+                <div class="stack__card" data-tilt data-reveal>
                     <h3 class="stack__label"><i class="fa-solid fa-terminal"></i> Languages</h3>
                     <ul class="chip-list">
                         <li class="chip">Python</li>
@@ -92,7 +123,7 @@
                         <li class="chip">MATLAB</li>
                     </ul>
                 </div>
-                <div class="stack__card" data-tilt>
+                <div class="stack__card" data-tilt data-reveal>
                     <h3 class="stack__label"><i class="fa-solid fa-layer-group"></i> Frameworks</h3>
                     <ul class="chip-list">
                         <li class="chip">Flask</li>
@@ -101,7 +132,7 @@
                         <li class="chip">Socket&nbsp;API</li>
                     </ul>
                 </div>
-                <div class="stack__card" data-tilt>
+                <div class="stack__card" data-tilt data-reveal>
                     <h3 class="stack__label"><i class="fa-solid fa-database"></i> Data</h3>
                     <ul class="chip-list">
                         <li class="chip">MySQL</li>
@@ -110,7 +141,7 @@
                         <li class="chip">Power&nbsp;BI</li>
                     </ul>
                 </div>
-                <div class="stack__card" data-tilt>
+                <div class="stack__card" data-tilt data-reveal>
                     <h3 class="stack__label"><i class="fa-solid fa-screwdriver-wrench"></i> Tools</h3>
                     <ul class="chip-list">
                         <li class="chip">Git</li>
@@ -130,7 +161,7 @@
                 <p class="section__lede">Software engineer from Nashville, TN &mdash; by way of Cairo, Egypt.</p>
             </div>
 
-            <div class="about__grid">
+            <div class="about__grid" data-reveal>
                 <div class="about__img-wrap" data-tilt>
                     <img src="img/mebaby.jpg" alt="Markow Moussa" class="about__img" loading="lazy" decoding="async">
                 </div>
@@ -166,8 +197,8 @@
             </div>
 
             <div class="projects">
-                <article class="project" data-tilt>
-                    <div class="project__tag"><i class="fa-solid fa-diagram-project"></i> Data Viz</div>
+                <article class="project project--feature" data-tilt data-reveal>
+                    <div class="project__tag"><i class="fa-solid fa-diagram-project"></i> Featured Case Study</div>
                     <h3 class="project__title">Artist Social Network Visualization</h3>
                     <p class="project__desc">
                         Interactive web app that explores relationships between artists as a social graph.
@@ -177,11 +208,12 @@
                         <li>Python</li><li>Flask</li><li>Bokeh</li><li>Graph Theory</li>
                     </ul>
                     <div class="project__links">
-                        <a href="https://github.com/markow2010/Artist-Social-Network-Visualization" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> Code</a>
+                        <a href="case-study-artist-network.html" data-magnetic><i class="fa-solid fa-book-open"></i> Read Case Study</a>
+                        <a href="https://github.com/markow2010/Artist-Social-Network-Visualization" target="_blank" rel="noopener" data-magnetic><i class="fa-brands fa-github"></i> Code</a>
                     </div>
                 </article>
 
-                <article class="project" data-tilt>
+                <article class="project" data-tilt data-reveal>
                     <div class="project__tag"><i class="fa-solid fa-sitemap"></i> Web App</div>
                     <h3 class="project__title">Artist Social Network App</h3>
                     <p class="project__desc">
@@ -192,11 +224,11 @@
                         <li>Python</li><li>Flask</li><li>Bootstrap</li><li>3-Tier</li>
                     </ul>
                     <div class="project__links">
-                        <a href="https://github.com/markow2010/Artist-Social-Network-App" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> Code</a>
+                        <a href="https://github.com/markow2010/Artist-Social-Network-App" target="_blank" rel="noopener" data-magnetic><i class="fa-brands fa-github"></i> Code</a>
                     </div>
                 </article>
 
-                <article class="project" data-tilt>
+                <article class="project" data-tilt data-reveal>
                     <div class="project__tag"><i class="fa-solid fa-university"></i> Enterprise</div>
                     <h3 class="project__title">University Management System</h3>
                     <p class="project__desc">
@@ -207,11 +239,11 @@
                         <li>Java</li><li>OOP</li><li>Data Structures</li>
                     </ul>
                     <div class="project__links">
-                        <a href="https://github.com/markow2010/-University-Management-System" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> Code</a>
+                        <a href="https://github.com/markow2010/-University-Management-System" target="_blank" rel="noopener" data-magnetic><i class="fa-brands fa-github"></i> Code</a>
                     </div>
                 </article>
 
-                <article class="project" data-tilt>
+                <article class="project" data-tilt data-reveal>
                     <div class="project__tag"><i class="fa-solid fa-database"></i> Database</div>
                     <h3 class="project__title">Library Database Management System</h3>
                     <p class="project__desc">
@@ -222,11 +254,11 @@
                         <li>SQL</li><li>Schema Design</li><li>Queries</li>
                     </ul>
                     <div class="project__links">
-                        <a href="https://github.com/markow2010/Library-Database-Management-System" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> Code</a>
+                        <a href="https://github.com/markow2010/Library-Database-Management-System" target="_blank" rel="noopener" data-magnetic><i class="fa-brands fa-github"></i> Code</a>
                     </div>
                 </article>
 
-                <article class="project" data-tilt>
+                <article class="project" data-tilt data-reveal>
                     <div class="project__tag"><i class="fa-solid fa-network-wired"></i> Networking</div>
                     <h3 class="project__title">Socket Chat Application</h3>
                     <p class="project__desc">
@@ -237,11 +269,11 @@
                         <li>Python</li><li>TCP Sockets</li><li>CLI</li>
                     </ul>
                     <div class="project__links">
-                        <a href="https://github.com/markow2010/Chat-Application" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> Code</a>
+                        <a href="https://github.com/markow2010/Chat-Application" target="_blank" rel="noopener" data-magnetic><i class="fa-brands fa-github"></i> Code</a>
                     </div>
                 </article>
 
-                <article class="project" data-tilt>
+                <article class="project" data-tilt data-reveal>
                     <div class="project__tag"><i class="fa-solid fa-plug"></i> Networking</div>
                     <h3 class="project__title">Client-Server Communication</h3>
                     <p class="project__desc">
@@ -252,11 +284,11 @@
                         <li>Python</li><li>Sockets</li><li>Concurrency</li>
                     </ul>
                     <div class="project__links">
-                        <a href="https://github.com/markow2010/Client-Server-Communication" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> Code</a>
+                        <a href="https://github.com/markow2010/Client-Server-Communication" target="_blank" rel="noopener" data-magnetic><i class="fa-brands fa-github"></i> Code</a>
                     </div>
                 </article>
 
-                <article class="project project--accent" data-tilt>
+                <article class="project project--accent" data-tilt data-reveal>
                     <div class="project__tag"><i class="fa-solid fa-palette"></i> Design</div>
                     <h3 class="project__title">Graphic Design Gallery</h3>
                     <p class="project__desc">
@@ -267,35 +299,101 @@
                         <li>Illustrator</li><li>Photoshop</li><li>Branding</li>
                     </ul>
                     <div class="project__links">
-                        <a href="GraphicGallery.html"><i class="fa-solid fa-image"></i> View Gallery</a>
+                        <a href="GraphicGallery.html" data-magnetic><i class="fa-solid fa-image"></i> View Gallery</a>
                     </div>
                 </article>
             </div>
         </section>
 
+        <!-- Live GitHub Stats -->
+        <section class="stats" id="stats">
+            <div class="section__head">
+                <p class="section__eyebrow">04 &mdash; Live Stats</p>
+                <h2 class="section__title">GitHub, Live</h2>
+                <p class="section__lede">Fetched in real time from the GitHub API.</p>
+            </div>
+
+            <div class="stats__grid" id="statsGrid" data-reveal>
+                <div class="stat-card">
+                    <div class="stat-card__icon"><i class="fa-solid fa-folder-open"></i></div>
+                    <div class="stat-card__value" data-count="0" id="statRepos">—</div>
+                    <div class="stat-card__label">Public Repos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card__icon"><i class="fa-solid fa-users"></i></div>
+                    <div class="stat-card__value" data-count="0" id="statFollowers">—</div>
+                    <div class="stat-card__label">Followers</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card__icon"><i class="fa-solid fa-code-branch"></i></div>
+                    <div class="stat-card__value" data-count="0" id="statForks">—</div>
+                    <div class="stat-card__label">Total Forks</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card__icon"><i class="fa-solid fa-star"></i></div>
+                    <div class="stat-card__value" data-count="0" id="statStars">—</div>
+                    <div class="stat-card__label">Stars Earned</div>
+                </div>
+            </div>
+
+            <div class="stats__ring-wrap" data-reveal>
+                <div class="stats__langs">
+                    <h3 class="stats__sub">Languages Used</h3>
+                    <svg viewBox="0 0 200 200" class="ring-chart" id="ringChart" role="img" aria-label="Language distribution ring chart">
+                        <circle cx="100" cy="100" r="80" class="ring-bg"></circle>
+                    </svg>
+                    <ul class="ring-legend" id="ringLegend"></ul>
+                </div>
+                <div class="stats__recent">
+                    <h3 class="stats__sub">Recent Activity</h3>
+                    <ul class="recent-list" id="recentList">
+                        <li class="recent-list__skeleton"></li>
+                        <li class="recent-list__skeleton"></li>
+                        <li class="recent-list__skeleton"></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
         <!-- Contact -->
         <section class="contact" id="contact">
-            <div class="contact__card" data-tilt>
-                <p class="section__eyebrow">04 &mdash; Contact</p>
+            <div class="contact__card" data-tilt data-reveal>
+                <p class="section__eyebrow">05 &mdash; Contact</p>
                 <h2 class="section__title">Let's Build Something</h2>
                 <p class="section__lede">
                     Open to software engineering roles, freelance work, and interesting problems.
                 </p>
-                <a href="mailto:markow2010@yahoo.com" class="btn btn--primary btn--lg">
+                <a href="mailto:markow2010@yahoo.com" class="btn btn--primary btn--lg" data-magnetic>
                     <i class="fa-solid fa-envelope"></i> Email Me
                 </a>
                 <ul class="social-list">
-                    <li class="social-list__item"><a class="social-list__link" href="https://github.com/markow2010" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a></li>
-                    <li class="social-list__item"><a class="social-list__link" href="https://www.linkedin.com/in/markow-moussa-585b61250/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a></li>
-                    <li class="social-list__item"><a class="social-list__link" href="https://instagram.com/markow2010" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a></li>
+                    <li class="social-list__item"><a class="social-list__link" href="https://github.com/markow2010" target="_blank" rel="noopener" aria-label="GitHub" data-magnetic><i class="fa-brands fa-github"></i></a></li>
+                    <li class="social-list__item"><a class="social-list__link" href="https://www.linkedin.com/in/markow-moussa-585b61250/" target="_blank" rel="noopener" aria-label="LinkedIn" data-magnetic><i class="fa-brands fa-linkedin"></i></a></li>
+                    <li class="social-list__item"><a class="social-list__link" href="https://instagram.com/markow2010" target="_blank" rel="noopener" aria-label="Instagram" data-magnetic><i class="fa-brands fa-instagram"></i></a></li>
                 </ul>
             </div>
         </section>
 
         <footer class="footer">
-            <p>&copy; <span id="year"></span> Markow Moussa &middot; Built with HTML, CSS &amp; a bit of JS</p>
+            <p>&copy; <span id="year"></span> Markow Moussa &middot; Built with HTML, CSS &amp; a bit of JS &middot; <span class="easter-hint">&uarr;&uarr;&darr;&darr;&larr;&rarr;&larr;&rarr;BA</span></p>
         </footer>
 
-        <script src="js/index.js"></script>
+        <!-- Dev console easter egg -->
+        <div class="dev-console" id="devConsole" aria-hidden="true">
+            <div class="dev-console__bar">
+                <span class="dev-console__dot dev-console__dot--r"></span>
+                <span class="dev-console__dot dev-console__dot--y"></span>
+                <span class="dev-console__dot dev-console__dot--g"></span>
+                <span class="dev-console__title">markow@portfolio ~ $</span>
+                <button class="dev-console__close" id="devConsoleClose" aria-label="Close console">&times;</button>
+            </div>
+            <div class="dev-console__body" id="devConsoleBody"></div>
+            <div class="dev-console__input-wrap">
+                <span class="dev-console__prompt">$</span>
+                <input class="dev-console__input" id="devConsoleInput" autocomplete="off" spellcheck="false" placeholder="try: help, whoami, skills, projects, contact, clear">
+            </div>
+        </div>
+
+        <script src="js/index.js" type="module"></script>
     </body>
 </html>
