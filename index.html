@@ -3,162 +3,299 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Markow's Portfolio Website</title>
-        <link rel="stylesheet" href="css/style.css"> 
-        <link rel="icon" type="image/ico" href="/img/favv.ico">
-        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400,900|Source+Sans+Pro:300,900&display=swap" rel="stylesheet" >
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css" integrity="sha256-46r060N2LrChLLb5zowXQ72/iKKNiw/lAmygmHExk/o=" crossorigin="anonymous" />
-
-
+        <meta name="description" content="Markow Moussa — Software Engineer. Full-stack developer building data-driven apps in Python, Java, and the web.">
+        <title>Markow Moussa — Software Engineer</title>
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="icon" type="image/x-icon" href="img/favv.ico">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;600;900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     </head>
     <body>
+        <div class="bg-mesh" aria-hidden="true"></div>
+        <div class="bg-grid" aria-hidden="true"></div>
+
         <header>
-            <div class="logo">
-                <img src="img/logo.png" alt="">
-            </div>
+            <a href="index.html" class="logo">
+                <img src="img/logo.png" alt="Markow Moussa logo">
+            </a>
             <button class="nav-toggle" aria-label="toggle navigation">
                 <span class="hamburger"></span>
             </button>
             <nav class="nav">
                 <ul class="nav__list">
-                    <li class="nav__item"><a href="index.html" class="nav__link">Home</a></li>
-                    <li class="nav__item"><a href="index.html#services" class="nav__link">My Services</a></li>
-                    <li class="nav__item"><a href="index.html#about" class="nav__link">About me</a></li>
-                    <li class="nav__item"><a href="index.html#work" class="nav__link">My Work</a></li>
+                    <li class="nav__item"><a href="#home" class="nav__link">Home</a></li>
+                    <li class="nav__item"><a href="#stack" class="nav__link">Stack</a></li>
+                    <li class="nav__item"><a href="#about" class="nav__link">About</a></li>
+                    <li class="nav__item"><a href="#work" class="nav__link">Work</a></li>
+                    <li class="nav__item"><a href="#contact" class="nav__link">Contact</a></li>
                 </ul>
             </nav>
         </header>
-        
-        <!-- Introduction -->
-        <section class="intro" id="home">
-            <h1 class="section__title section__title--intro">
-                Hello, I'm <strong>Markow Moussa</strong>
-            </h1>
-            <p class="section__subtitle section__subtitle--intro">Software Engineer</p>
-            <img src="img/Newme.png" alt="a picture of Markow Moussa smiling" class="intro__img">
-        </section>
-        
-        
-        <!-- My services -->
-        <section class="my-services" id="services">
-            <h2 class="section__title section__title--services">What I do</h2>
-            <div class="services">
-                <div class="service">
-                    <h3>Design + Development</h3>
-                    <p>When it comes to being a software engineer, my passion originated from helping a lot of my friends launch their businesses. Whether it’s helping them with graphic design or web development. Over Time, this helped me gain more experience in the field, and I started doing it because of something I love rather than work.</p>
-                </div> <!-- / service -->
-                
-                <div class="service">
-                    <h3>Programming Languages</h3>
-                    <p>C++, Python, MySQL, JavaScript, HTML/CSS, MATLAB, MongoDB, Microsoft Office, PowerBI, Pycharm, etc</p>
-                </div> <!-- / service -->
 
-                <div class="service">
-                    <h3>My Skills</h3>
-                    <p>Teamwork and collaboration, Analytical and critical thinking, Excellent Communication, Problem-Solving, Quick Learner, Time Management, Bilingual, Microsoft Office, Planning and Coordination / Organization, Attention To Detail</p>
-                </div> <!-- / service -->
-                
-                
-            </div> <!-- / services -->
-            
-            <a href="#work" class="btn">My Work</a>
+        <!-- Hero -->
+        <section class="hero" id="home">
+            <div class="hero__content">
+                <p class="hero__eyebrow"><span class="status-dot"></span> Available for opportunities</p>
+                <h1 class="hero__title">
+                    <span class="hero__hello">Hi, I'm</span>
+                    <strong class="hero__name">Markow Moussa</strong>
+                </h1>
+                <p class="hero__subtitle">
+                    <span class="typed">Software&nbsp;Engineer</span>
+                </p>
+                <p class="hero__pitch">
+                    Full-stack developer building <em>data-driven</em> web apps &mdash;
+                    from graph-visualization platforms in Python &amp; Flask
+                    to client/server systems and database-backed tools.
+                </p>
+                <div class="hero__cta">
+                    <a href="#work" class="btn btn--primary">View My Work <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="https://github.com/markow2010" class="btn btn--ghost" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> GitHub</a>
+                    <a href="https://github.com/markow2010/Resume/blob/main/Moussa%20Resume%202.pdf" class="btn btn--ghost" target="_blank" rel="noopener"><i class="fa-solid fa-file-lines"></i> Resume</a>
+                </div>
+            </div>
+            <div class="hero__visual">
+                <div class="hero__card" data-tilt>
+                    <div class="hero__card-glow"></div>
+                    <img src="img/Newme-opt.jpg" alt="Markow Moussa" class="hero__img" fetchpriority="high" decoding="async">
+                    <div class="hero__card-badge">
+                        <i class="fa-solid fa-code"></i>
+                        <span>ship_it()</span>
+                    </div>
+                </div>
+                <div class="floating-chip floating-chip--1">{ Python }</div>
+                <div class="floating-chip floating-chip--2">&lt;/&gt;</div>
+                <div class="floating-chip floating-chip--3">SQL</div>
+                <div class="floating-chip floating-chip--4">Java</div>
+            </div>
         </section>
-        
-        
+
+        <!-- Tech Stack -->
+        <section class="stack" id="stack">
+            <div class="section__head">
+                <p class="section__eyebrow">01 &mdash; Toolkit</p>
+                <h2 class="section__title">Tech Stack</h2>
+                <p class="section__lede">The languages, frameworks, and tools I reach for.</p>
+            </div>
+
+            <div class="stack__grid">
+                <div class="stack__card" data-tilt>
+                    <h3 class="stack__label"><i class="fa-solid fa-terminal"></i> Languages</h3>
+                    <ul class="chip-list">
+                        <li class="chip">Python</li>
+                        <li class="chip">C++</li>
+                        <li class="chip">Java</li>
+                        <li class="chip">JavaScript</li>
+                        <li class="chip">HTML / CSS</li>
+                        <li class="chip">MATLAB</li>
+                    </ul>
+                </div>
+                <div class="stack__card" data-tilt>
+                    <h3 class="stack__label"><i class="fa-solid fa-layer-group"></i> Frameworks</h3>
+                    <ul class="chip-list">
+                        <li class="chip">Flask</li>
+                        <li class="chip">Bokeh</li>
+                        <li class="chip">Bootstrap</li>
+                        <li class="chip">Socket&nbsp;API</li>
+                    </ul>
+                </div>
+                <div class="stack__card" data-tilt>
+                    <h3 class="stack__label"><i class="fa-solid fa-database"></i> Data</h3>
+                    <ul class="chip-list">
+                        <li class="chip">MySQL</li>
+                        <li class="chip">MongoDB</li>
+                        <li class="chip">SQL</li>
+                        <li class="chip">Power&nbsp;BI</li>
+                    </ul>
+                </div>
+                <div class="stack__card" data-tilt>
+                    <h3 class="stack__label"><i class="fa-solid fa-screwdriver-wrench"></i> Tools</h3>
+                    <ul class="chip-list">
+                        <li class="chip">Git</li>
+                        <li class="chip">PyCharm</li>
+                        <li class="chip">VS&nbsp;Code</li>
+                        <li class="chip">Linux</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
         <!-- About me -->
-        <section class="about-me" id="about">
-           <h2 class="section__title section__title--about">Who I am</h2>
-           <p class="section__subtitle section__subtitle--about">Upcoming Software Engineer from Nashville, TN</p>
-           
-           <div class="about-me__body">
-               <p>I was born in Egypt and grew up in Nashville, Tn, went to school in Cookville, TN (TNTECH). i love to go out and  and just meet new people. i volunteer regularly and passionate about my work and my friendships.</p>
-               <p>Experiences with programming, building, designing, and testing computers, servers, and mining rigs. I am knowledgeable about Web 3.0 and the Metaverse. I possess experience in 5+ programming languages, while being exceptionally skilled in C++ and Python. Bilingual in English and Arabic.</p>
+        <section class="about" id="about">
+            <div class="section__head">
+                <p class="section__eyebrow">02 &mdash; About</p>
+                <h2 class="section__title">Who I Am</h2>
+                <p class="section__lede">Software engineer from Nashville, TN &mdash; by way of Cairo, Egypt.</p>
             </div>
-           
-           <img src="img/mebaby.jpg" alt="Markow leaning against a bus" class="about-me__img">
-        </section>
-        
-        <!-- My Work -->
-        <section class="my-work" id="work">
-            <h2 class="section__title section__title--work">My Work/ Projects</h2>
-            <p class="section__subtitle section__subtitle--work">A selection of my range of work</p>
-            
-            <div class="portfolio">
-                <!-- Portfolio item 01 -->
-                <a href="GraphicGallery.html" class="portfolio__item">
-                    <img src="img/Graphic.jpg" alt="" class="portfolio__img">     
-                </a>
-                
-                <!-- Portfolio item 02 -->
-                <a href="https://github.com/markow2010/Resume/blob/main/Moussa%20Resume%202.pdf" class="portfolio__item">
-                    <img src="img/resume.jpg" alt="" class="portfolio__img">     
-                </a>
-                
-                <!-- Portfolio item 03 -->
-                <a href="https://github.com/markow2010/Project1" class="portfolio__item">
-                    <img src="img/comingsoon.jpg" alt="" class="portfolio__img">
-                </a>
-                
-                <!-- Portfolio item 04 -->
-                <a href="portfolio-item.html" class="portfolio__item">
-                    <img src="img/comingsoon.jpg" alt="" class="portfolio__img">
-                </a>
-                
-                <!-- Portfolio item 05 -->
-                <a href="portfolio-item.html" class="portfolio__item">
-                    <img src="img/comingsoon.jpg" alt="" class="portfolio__img">
-                </a>
-                
-                <!-- Portfolio item 06 -->
-                <a href="portfolio-item.html" class="portfolio__item">
-                    <img src="img/comingsoon.jpg" alt="" class="portfolio__img">
-                </a>
-                
-                <!-- Portfolio item 07 -->
-                <a href="portfolio-item.html" class="portfolio__item">
-                    <img src="img/comingsoon.jpg" alt="" class="portfolio__img">
-                </a>
-                
-                <!-- Portfolio item 08 -->
-                <a href="#" class="portfolio__item">
-                    <img src="img/comingsoon.jpg" alt="" class="portfolio__img">
-                </a>
-                
-                <!-- Portfolio item 09 -->
-                <a href="#" class="portfolio__item">
-                    <img src="img/comingsoon.jpg" alt="" class="portfolio__img">
-                </a>
-                
-                <!-- Portfolio item 0 0-->
-                <a href="#" class="portfolio__item">
-                    <img src="img/comingsoon.jpg" alt="" class="portfolio__img">
-                </a>
+
+            <div class="about__grid">
+                <div class="about__img-wrap" data-tilt>
+                    <img src="img/mebaby.jpg" alt="Markow Moussa" class="about__img" loading="lazy" decoding="async">
+                </div>
+                <div class="about__body">
+                    <p>
+                        Born in Egypt, raised in Nashville, and educated at
+                        <strong>Tennessee Tech (TNTECH)</strong>. I got my start in software
+                        helping friends launch small businesses &mdash; building sites, designing
+                        graphics, and eventually writing real applications.
+                    </p>
+                    <p>
+                        Today I write production-quality code in <strong>5+ languages</strong>,
+                        with the deepest work in <strong>Python</strong> and <strong>C++</strong>.
+                        I've built graph-based social network visualizers with Flask and Bokeh,
+                        client/server systems with raw sockets, and database-backed tools in
+                        Java and SQL.
+                    </p>
+                    <p class="about__facts">
+                        <span class="fact"><i class="fa-solid fa-language"></i> Bilingual &mdash; English &amp; Arabic</span>
+                        <span class="fact"><i class="fa-solid fa-location-dot"></i> Nashville, TN</span>
+                        <span class="fact"><i class="fa-solid fa-graduation-cap"></i> TN Tech</span>
+                    </p>
+                </div>
             </div>
         </section>
-        
-        
-        <!-- Footer -->
+
+        <!-- Projects -->
+        <section class="work" id="work">
+            <div class="section__head">
+                <p class="section__eyebrow">03 &mdash; Work</p>
+                <h2 class="section__title">Featured Projects</h2>
+                <p class="section__lede">A selection of what I've built.</p>
+            </div>
+
+            <div class="projects">
+                <article class="project" data-tilt>
+                    <div class="project__tag"><i class="fa-solid fa-diagram-project"></i> Data Viz</div>
+                    <h3 class="project__title">Artist Social Network Visualization</h3>
+                    <p class="project__desc">
+                        Interactive web app that explores relationships between artists as a social graph.
+                        Computes centrality measures and renders expandable networks with Bokeh.
+                    </p>
+                    <ul class="project__tech">
+                        <li>Python</li><li>Flask</li><li>Bokeh</li><li>Graph Theory</li>
+                    </ul>
+                    <div class="project__links">
+                        <a href="https://github.com/markow2010/Artist-Social-Network-Visualization" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> Code</a>
+                    </div>
+                </article>
+
+                <article class="project" data-tilt>
+                    <div class="project__tag"><i class="fa-solid fa-sitemap"></i> Web App</div>
+                    <h3 class="project__title">Artist Social Network App</h3>
+                    <p class="project__desc">
+                        Companion web application following a clean 3-tier architecture
+                        (interface / logic / data) for exploring and querying artist networks.
+                    </p>
+                    <ul class="project__tech">
+                        <li>Python</li><li>Flask</li><li>Bootstrap</li><li>3-Tier</li>
+                    </ul>
+                    <div class="project__links">
+                        <a href="https://github.com/markow2010/Artist-Social-Network-App" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> Code</a>
+                    </div>
+                </article>
+
+                <article class="project" data-tilt>
+                    <div class="project__tag"><i class="fa-solid fa-university"></i> Enterprise</div>
+                    <h3 class="project__title">University Management System</h3>
+                    <p class="project__desc">
+                        Java application for managing students, courses, and enrollment.
+                        Practiced object-oriented design, inheritance, and clean separation of concerns.
+                    </p>
+                    <ul class="project__tech">
+                        <li>Java</li><li>OOP</li><li>Data Structures</li>
+                    </ul>
+                    <div class="project__links">
+                        <a href="https://github.com/markow2010/-University-Management-System" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> Code</a>
+                    </div>
+                </article>
+
+                <article class="project" data-tilt>
+                    <div class="project__tag"><i class="fa-solid fa-database"></i> Database</div>
+                    <h3 class="project__title">Library Database Management System</h3>
+                    <p class="project__desc">
+                        Relational database project modeling a library's books, patrons, and
+                        lending relationships. Schema design, queries, and reporting.
+                    </p>
+                    <ul class="project__tech">
+                        <li>SQL</li><li>Schema Design</li><li>Queries</li>
+                    </ul>
+                    <div class="project__links">
+                        <a href="https://github.com/markow2010/Library-Database-Management-System" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> Code</a>
+                    </div>
+                </article>
+
+                <article class="project" data-tilt>
+                    <div class="project__tag"><i class="fa-solid fa-network-wired"></i> Networking</div>
+                    <h3 class="project__title">Socket Chat Application</h3>
+                    <p class="project__desc">
+                        Python client/server chat over raw TCP sockets with message logging
+                        and CLI configuration. Hands-on networking fundamentals.
+                    </p>
+                    <ul class="project__tech">
+                        <li>Python</li><li>TCP Sockets</li><li>CLI</li>
+                    </ul>
+                    <div class="project__links">
+                        <a href="https://github.com/markow2010/Chat-Application" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> Code</a>
+                    </div>
+                </article>
+
+                <article class="project" data-tilt>
+                    <div class="project__tag"><i class="fa-solid fa-plug"></i> Networking</div>
+                    <h3 class="project__title">Client-Server Communication</h3>
+                    <p class="project__desc">
+                        Low-level Python implementation of client/server communication,
+                        request handling, and message persistence &mdash; foundations behind every networked app.
+                    </p>
+                    <ul class="project__tech">
+                        <li>Python</li><li>Sockets</li><li>Concurrency</li>
+                    </ul>
+                    <div class="project__links">
+                        <a href="https://github.com/markow2010/Client-Server-Communication" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> Code</a>
+                    </div>
+                </article>
+
+                <article class="project project--accent" data-tilt>
+                    <div class="project__tag"><i class="fa-solid fa-palette"></i> Design</div>
+                    <h3 class="project__title">Graphic Design Gallery</h3>
+                    <p class="project__desc">
+                        A selection of logos, layouts, and brand work I've designed for friends
+                        and small businesses. The other side of engineering &mdash; visual craft.
+                    </p>
+                    <ul class="project__tech">
+                        <li>Illustrator</li><li>Photoshop</li><li>Branding</li>
+                    </ul>
+                    <div class="project__links">
+                        <a href="GraphicGallery.html"><i class="fa-solid fa-image"></i> View Gallery</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Contact -->
+        <section class="contact" id="contact">
+            <div class="contact__card" data-tilt>
+                <p class="section__eyebrow">04 &mdash; Contact</p>
+                <h2 class="section__title">Let's Build Something</h2>
+                <p class="section__lede">
+                    Open to software engineering roles, freelance work, and interesting problems.
+                </p>
+                <a href="mailto:markow2010@yahoo.com" class="btn btn--primary btn--lg">
+                    <i class="fa-solid fa-envelope"></i> Email Me
+                </a>
+                <ul class="social-list">
+                    <li class="social-list__item"><a class="social-list__link" href="https://github.com/markow2010" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a></li>
+                    <li class="social-list__item"><a class="social-list__link" href="https://www.linkedin.com/in/markow-moussa-585b61250/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a></li>
+                    <li class="social-list__item"><a class="social-list__link" href="https://instagram.com/markow2010" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a></li>
+                </ul>
+            </div>
+        </section>
+
         <footer class="footer">
-            <a href="mailto:markow2010@yahoo.com" class="footer__link">Click Here To Email Me</a>
-            <ul class="social-list">
-                <li class="social-list__item">
-                    <a class="social-list__link" href="https://instagram.com/markow2010">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                <li class="social-list__item">
-                    <a class="social-list__link" href="https://github.com/markow2010">
-                        <i class="fab fa-github"></i>
-                    </a>
-                <li class="social-list__item">
-                    <a class="social-list__link" href="https://www.linkedin.com/in/markow-moussa-585b61250/">
-                        <i class="fab fa-linkedin"></i>
-                    </a>
-                </li>
-            </ul>
+            <p>&copy; <span id="year"></span> Markow Moussa &middot; Built with HTML, CSS &amp; a bit of JS</p>
         </footer>
-        
+
         <script src="js/index.js"></script>
-        
     </body>
 </html>
-
