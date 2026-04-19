@@ -71,7 +71,7 @@ if (!isTouch && !prefersReducedMotion) {
         requestAnimationFrame(animate);
     })();
 
-    const HOVERABLE = 'a, button, [data-magnetic], [data-tilt], input, .chip, .project__item';
+    const HOVERABLE = 'a, button, [data-magnetic], [data-tilt], input, .chip, .project';
     document.querySelectorAll(HOVERABLE).forEach(el => {
         el.addEventListener('mouseenter', () => cursor?.classList.add('is-hover'));
         el.addEventListener('mouseleave', () => cursor?.classList.remove('is-hover'));
@@ -253,6 +253,9 @@ function animateCounts() {
    ============================================================ */
 
 (async function githubStats() {
+    // Skip on pages that don't have the stats UI
+    if (!document.getElementById('statsGrid')) return;
+
     const user = 'markow2010';
     const CACHE_KEY = `gh:${user}:v2`;
     const TTL = 1000 * 60 * 60; // 1 hour
@@ -377,7 +380,7 @@ function animateCounts() {
     const overlay = document.querySelector('.theme-reveal');
     if (!btn) return;
 
-    const saved = localStorage.getItem('theme');
+    const saved = store.get('theme');
     if (saved) applyTheme(saved, { animate: false });
 
     btn.addEventListener('click', (e) => {
@@ -402,7 +405,7 @@ function animateCounts() {
 
     function applyTheme(theme) {
         document.documentElement.dataset.theme = theme;
-        localStorage.setItem('theme', theme);
+        store.set('theme', theme);
         const icon = btn.querySelector('i');
         if (icon) icon.className = theme === 'dark' ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
     }
@@ -413,7 +416,7 @@ function animateCounts() {
    ============================================================ */
 
 let audioCtx = null;
-let soundOn = localStorage.getItem('sound') === 'on';
+let soundOn = store.get('sound') === 'on';
 
 (function soundInit() {
     const btn = document.getElementById('soundToggle');
@@ -421,7 +424,7 @@ let soundOn = localStorage.getItem('sound') === 'on';
     updateBtn();
     btn.addEventListener('click', () => {
         soundOn = !soundOn;
-        localStorage.setItem('sound', soundOn ? 'on' : 'off');
+        store.set('sound', soundOn ? 'on' : 'off');
         updateBtn();
         if (soundOn) { ensureCtx(); sfx('tap'); }
     });

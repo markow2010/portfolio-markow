@@ -1928,18 +1928,6 @@ section {
     transform: translateY(0) translateZ(0);
 }
 
-/* Legacy reveal class */
-.reveal {
-    opacity: 0;
-    transform: translateY(30px) translateZ(0);
-    transition: opacity 700ms ease, transform 700ms cubic-bezier(.2,.9,.3,1.2);
-}
-
-.reveal.is-visible {
-    opacity: 1;
-    transform: translateY(0) translateZ(0);
-}
-
 /* ============================================================
    Case Study page — full-width showcase layout
    ============================================================ */
