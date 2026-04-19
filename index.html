@@ -21,6 +21,9 @@
         </script>
     </head>
     <body>
+        <!-- Scroll progress bar -->
+        <div class="scroll-progress" aria-hidden="true"><div class="scroll-progress__bar" id="scrollBar"></div></div>
+
         <!-- Custom cursor -->
         <div class="cursor" aria-hidden="true"></div>
         <div class="cursor-dot" aria-hidden="true"></div>
@@ -29,6 +32,7 @@
         <canvas class="bg-webgl" aria-hidden="true"></canvas>
         <div class="bg-mesh" aria-hidden="true"></div>
         <div class="bg-grid" aria-hidden="true"></div>
+        <div class="bg-noise" aria-hidden="true"></div>
 
         <!-- Theme reveal overlay -->
         <div class="theme-reveal" aria-hidden="true"></div>
@@ -214,6 +218,68 @@
                 </article>
 
                 <article class="project" data-tilt data-reveal>
+                    <div class="project__tag"><i class="fa-solid fa-truck-fast"></i> Client Work</div>
+                    <h3 class="project__title">Transportation Management System</h3>
+                    <p class="project__desc">
+                        Internal operations platform for a transportation service.
+                        Fleet scheduling, driver dispatch, trip records, and customer management.
+                        Private &mdash; details under NDA.
+                    </p>
+                    <ul class="project__tech">
+                        <li>Full-Stack</li><li>Database</li><li>Ops Tooling</li>
+                    </ul>
+                    <div class="project__links">
+                        <span class="project__private"><i class="fa-solid fa-lock"></i> Private repo</span>
+                    </div>
+                </article>
+
+                <article class="project" data-tilt data-reveal>
+                    <div class="project__tag"><i class="fa-solid fa-briefcase"></i> Client Work</div>
+                    <h3 class="project__title">Client Business Sites</h3>
+                    <p class="project__desc">
+                        Delivered web platforms for a luxury transportation LLC,
+                        an event-planning business, and a consumer product brand &mdash;
+                        end-to-end from design through deployment.
+                    </p>
+                    <ul class="project__tech">
+                        <li>HTML / CSS</li><li>JavaScript</li><li>Responsive</li><li>Branding</li>
+                    </ul>
+                    <div class="project__links">
+                        <span class="project__private"><i class="fa-solid fa-lock"></i> 3 private clients</span>
+                    </div>
+                </article>
+
+                <article class="project" data-tilt data-reveal>
+                    <div class="project__tag"><i class="fa-solid fa-microchip"></i> IoT &middot; Team</div>
+                    <h3 class="project__title">SmartCoop &mdash; IoT Livestock System</h3>
+                    <p class="project__desc">
+                        Team-built smart enclosure with sensor integration, environmental
+                        monitoring, and automated controls. Built during CS 3100 at Tennessee Tech.
+                    </p>
+                    <ul class="project__tech">
+                        <li>IoT</li><li>Sensors</li><li>Team Project</li><li>Hardware</li>
+                    </ul>
+                    <div class="project__links">
+                        <a href="https://github.com/Mjsims42/SmartCoop-3100" target="_blank" rel="noopener" data-magnetic><i class="fa-brands fa-github"></i> Team Repo</a>
+                    </div>
+                </article>
+
+                <article class="project" data-tilt data-reveal>
+                    <div class="project__tag"><i class="fa-solid fa-gamepad"></i> Mobile &middot; Collab</div>
+                    <h3 class="project__title">Mobile Game Suite</h3>
+                    <p class="project__desc">
+                        Collaborative mobile game project with another developer.
+                        Contributed to gameplay mechanics and app architecture.
+                    </p>
+                    <ul class="project__tech">
+                        <li>Mobile</li><li>Game Dev</li><li>Collab</li>
+                    </ul>
+                    <div class="project__links">
+                        <a href="https://github.com/kzriley/mobile-game-suite" target="_blank" rel="noopener" data-magnetic><i class="fa-brands fa-github"></i> Team Repo</a>
+                    </div>
+                </article>
+
+                <article class="project" data-tilt data-reveal>
                     <div class="project__tag"><i class="fa-solid fa-sitemap"></i> Web App</div>
                     <h3 class="project__title">Artist Social Network App</h3>
                     <p class="project__desc">
@@ -305,47 +371,47 @@
             </div>
         </section>
 
-        <!-- Live GitHub Stats -->
+        <!-- At a Glance -->
         <section class="stats" id="stats">
             <div class="section__head">
-                <p class="section__eyebrow">04 &mdash; Live Stats</p>
-                <h2 class="section__title">GitHub, Live</h2>
-                <p class="section__lede">Fetched in real time from the GitHub API.</p>
+                <p class="section__eyebrow">04 &mdash; At a Glance</p>
+                <h2 class="section__title">By the Numbers</h2>
+                <p class="section__lede">A quick snapshot of my public and private code footprint.</p>
             </div>
 
             <div class="stats__grid" id="statsGrid" data-reveal>
                 <div class="stat-card">
                     <div class="stat-card__icon"><i class="fa-solid fa-folder-open"></i></div>
-                    <div class="stat-card__value" data-count="0" id="statRepos">—</div>
-                    <div class="stat-card__label">Public Repos</div>
+                    <div class="stat-card__value" data-count="19" id="statRepos">—</div>
+                    <div class="stat-card__label">Total Repos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card__icon"><i class="fa-solid fa-code"></i></div>
+                    <div class="stat-card__value" data-count="6" id="statLangs">—</div>
+                    <div class="stat-card__label">Languages</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-card__icon"><i class="fa-solid fa-users"></i></div>
-                    <div class="stat-card__value" data-count="0" id="statFollowers">—</div>
-                    <div class="stat-card__label">Followers</div>
+                    <div class="stat-card__value" data-count="3" id="statCollab">—</div>
+                    <div class="stat-card__label">Collaborations</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-card__icon"><i class="fa-solid fa-code-branch"></i></div>
-                    <div class="stat-card__value" data-count="0" id="statForks">—</div>
-                    <div class="stat-card__label">Total Forks</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-card__icon"><i class="fa-solid fa-star"></i></div>
-                    <div class="stat-card__value" data-count="0" id="statStars">—</div>
-                    <div class="stat-card__label">Stars Earned</div>
+                    <div class="stat-card__icon"><i class="fa-solid fa-briefcase"></i></div>
+                    <div class="stat-card__value" data-count="5" id="statClient">—</div>
+                    <div class="stat-card__label">Client Projects</div>
                 </div>
             </div>
 
             <div class="stats__ring-wrap" data-reveal>
                 <div class="stats__langs">
-                    <h3 class="stats__sub">Languages Used</h3>
+                    <h3 class="stats__sub">Languages Used (Public Code)</h3>
                     <svg viewBox="0 0 200 200" class="ring-chart" id="ringChart" role="img" aria-label="Language distribution ring chart">
                         <circle cx="100" cy="100" r="80" class="ring-bg"></circle>
                     </svg>
                     <ul class="ring-legend" id="ringLegend"></ul>
                 </div>
                 <div class="stats__recent">
-                    <h3 class="stats__sub">Recent Activity</h3>
+                    <h3 class="stats__sub">Recent Public Activity</h3>
                     <ul class="recent-list" id="recentList">
                         <li class="recent-list__skeleton"></li>
                         <li class="recent-list__skeleton"></li>
@@ -363,9 +429,16 @@
                 <p class="section__lede">
                     Open to software engineering roles, freelance work, and interesting problems.
                 </p>
-                <a href="mailto:markow2010@yahoo.com" class="btn btn--primary btn--lg" data-magnetic>
-                    <i class="fa-solid fa-envelope"></i> Email Me
-                </a>
+                <div class="contact__email">
+                    <a href="mailto:markow2010@yahoo.com" class="btn btn--primary btn--lg" data-magnetic data-copy="markow2010@yahoo.com">
+                        <i class="fa-solid fa-envelope"></i> Email Me
+                    </a>
+                    <button class="contact__copy" type="button" data-copy="markow2010@yahoo.com" aria-label="Copy email address" data-magnetic>
+                        <code>markow2010@yahoo.com</code>
+                        <span class="contact__copy-icon"><i class="fa-regular fa-copy"></i></span>
+                    </button>
+                </div>
+                <p class="contact__note">Click the address to copy it.</p>
                 <ul class="social-list">
                     <li class="social-list__item"><a class="social-list__link" href="https://github.com/markow2010" target="_blank" rel="noopener" aria-label="GitHub" data-magnetic><i class="fa-brands fa-github"></i></a></li>
                     <li class="social-list__item"><a class="social-list__link" href="https://www.linkedin.com/in/markow-moussa-585b61250/" target="_blank" rel="noopener" aria-label="LinkedIn" data-magnetic><i class="fa-brands fa-linkedin"></i></a></li>

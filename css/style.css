@@ -101,7 +101,6 @@ body {
     font-size: var(--fs-body);
     line-height: 1.7;
     overflow-x: hidden;
-    perspective: 1500px;
     transition: background 600ms ease, color 600ms ease;
 }
 
@@ -886,6 +885,21 @@ section {
 
 .project__links a:hover { color: var(--accent); }
 
+.project__private {
+    display: inline-flex;
+    align-items: center;
+    gap: .4em;
+    font-size: .85rem;
+    font-family: var(--ff-mono);
+    color: var(--text-dim);
+    padding: .3em .8em;
+    border: 1px dashed var(--border);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .02);
+}
+
+.project__private i { color: var(--accent-2); }
+
 /* ============================================================
    Contact
    ============================================================ */
@@ -915,6 +929,79 @@ section {
 .contact__card .section__eyebrow { margin-bottom: .5em; }
 .contact__card .section__title { margin-bottom: .5em; }
 .contact__card .section__lede { margin-bottom: 2em; }
+
+.contact__email {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+    margin-bottom: 1em;
+}
+
+.contact__copy {
+    display: inline-flex;
+    align-items: center;
+    gap: .6em;
+    padding: .85em 1.2em;
+    background: rgba(255, 255, 255, .02);
+    border: 1px dashed var(--border-strong);
+    border-radius: 999px;
+    color: var(--text);
+    font-family: var(--ff-mono);
+    font-size: .95rem;
+    cursor: pointer;
+    transition: all 250ms ease;
+    position: relative;
+}
+
+.contact__copy code {
+    font-family: inherit;
+    background: transparent;
+    color: var(--text);
+}
+
+.contact__copy:hover {
+    border-color: var(--accent);
+    border-style: solid;
+    color: var(--accent);
+    background: rgba(34, 211, 238, .06);
+}
+
+.contact__copy:hover code { color: var(--accent); }
+
+.contact__copy-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: rgba(34, 211, 238, .1);
+    color: var(--accent);
+    font-size: .8rem;
+}
+
+.contact__copy.is-copied {
+    border-color: var(--accent-3);
+    border-style: solid;
+    color: var(--accent-3);
+    background: rgba(16, 185, 129, .1);
+}
+
+.contact__copy.is-copied code { color: var(--accent-3); }
+
+.contact__copy.is-copied .contact__copy-icon {
+    background: rgba(16, 185, 129, .15);
+    color: var(--accent-3);
+}
+
+.contact__note {
+    font-size: .8rem;
+    color: var(--text-dim);
+    margin: 0 0 1em;
+    font-family: var(--ff-mono);
+}
 
 .social-list {
     list-style: none;
@@ -1054,6 +1141,45 @@ section {
 }
 
 /* ============================================================
+   Scroll progress bar (top of page)
+   ============================================================ */
+
+.scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    z-index: 100;
+    background: rgba(255, 255, 255, .03);
+    pointer-events: none;
+}
+
+.scroll-progress__bar {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    box-shadow: 0 0 10px var(--accent-glow);
+    transition: width 60ms linear;
+}
+
+/* ============================================================
+   Noise / grain overlay
+   ============================================================ */
+
+.bg-noise {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: .045;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    mix-blend-mode: overlay;
+}
+
+[data-theme="light"] .bg-noise { opacity: .03; mix-blend-mode: multiply; }
+
+/* ============================================================
    WebGL backdrop canvas
    ============================================================ */
 
@@ -1080,34 +1206,35 @@ section {
     left: 0;
     pointer-events: none;
     z-index: 9999;
-    transform: translate3d(-100px, -100px, 0);
+    will-change: transform;
 }
 
 .cursor {
-    width: 40px;
-    height: 40px;
-    margin: -20px 0 0 -20px;
-    border: 1.5px solid var(--accent);
+    width: 46px;
+    height: 46px;
+    margin: -23px 0 0 -23px;
+    border: 2.5px solid var(--accent);
     border-radius: 50%;
+    background: rgba(34, 211, 238, 0.08);
     box-shadow:
-        0 0 20px var(--accent-glow),
-        inset 0 0 10px rgba(34, 211, 238, .12);
+        0 0 25px var(--accent-glow),
+        0 0 0 1px rgba(0, 0, 0, 0.4),
+        inset 0 0 12px rgba(34, 211, 238, .2);
     transition:
         width 280ms cubic-bezier(.2,.9,.3,1.2),
         height 280ms cubic-bezier(.2,.9,.3,1.2),
         margin 280ms cubic-bezier(.2,.9,.3,1.2),
         background 280ms ease,
         border-color 280ms ease,
-        border-radius 280ms ease,
         opacity 280ms ease;
 }
 
 .cursor::before {
     content: '';
     position: absolute;
-    inset: -4px;
+    inset: -5px;
     border-radius: 50%;
-    border: 1px solid rgba(168, 85, 247, .4);
+    border: 1.5px solid rgba(168, 85, 247, .55);
     opacity: 0;
     transition: opacity 300ms ease, transform 300ms ease;
     transform: scale(.8);
@@ -1116,54 +1243,42 @@ section {
 .cursor.is-hover::before { opacity: 1; transform: scale(1); }
 
 .cursor-dot {
-    width: 6px;
-    height: 6px;
-    margin: -3px 0 0 -3px;
+    width: 14px;
+    height: 14px;
+    margin: -7px 0 0 -7px;
     background: var(--accent);
+    border: 2px solid rgba(255, 255, 255, 0.95);
     border-radius: 50%;
-    box-shadow: 0 0 12px var(--accent);
+    box-shadow:
+        0 0 18px var(--accent),
+        0 0 3px rgba(0, 0, 0, 0.8);
 }
 
 .cursor.is-hover {
-    width: 72px;
-    height: 72px;
-    margin: -36px 0 0 -36px;
-    background: rgba(34, 211, 238, .12);
+    width: 78px;
+    height: 78px;
+    margin: -39px 0 0 -39px;
+    background: rgba(34, 211, 238, .15);
     border-color: var(--accent-2);
-    mix-blend-mode: normal;
+    border-width: 3px;
 }
 
 .cursor.is-click {
-    width: 28px;
-    height: 28px;
-    margin: -14px 0 0 -14px;
-    background: rgba(34, 211, 238, .3);
+    width: 30px;
+    height: 30px;
+    margin: -15px 0 0 -15px;
+    background: rgba(34, 211, 238, .35);
 }
 
-/* Particle trail */
-.cursor-trail {
-    position: fixed;
-    width: 5px;
-    height: 5px;
-    margin: -2.5px 0 0 -2.5px;
-    background: var(--accent);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9998;
-    box-shadow: 0 0 8px var(--accent);
-    animation: trail-fade 650ms ease-out forwards;
-    --tx: 0px;
-    --ty: 0px;
-}
-
-@keyframes trail-fade {
-    0%   { opacity: .9; transform: translate(0, 0) scale(1); }
-    100% { opacity: 0;  transform: translate(var(--tx), var(--ty)) scale(.2); }
+/* Light-theme contrast tweak */
+[data-theme="light"] .cursor-dot {
+    border-color: rgba(0, 0, 0, 0.8);
+    box-shadow: 0 0 14px var(--accent), 0 0 3px rgba(255, 255, 255, 0.9);
 }
 
 /* Touch / no-hover devices: hide */
 @media (hover: none) {
-    .cursor, .cursor-dot, .cursor-trail { display: none; }
+    .cursor, .cursor-dot { display: none; }
 }
 
 /* ============================================================

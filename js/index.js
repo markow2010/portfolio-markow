@@ -8,6 +8,14 @@ import * as THREE from 'three';
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const isTouch = matchMedia('(hover: none)').matches;
 
+// Safe localStorage — tolerates private browsing / strict policies
+const store = {
+    get(k)    { try { return localStorage.getItem(k); }      catch { return null; } },
+    set(k, v) { try { localStorage.setItem(k, v); }         catch {} },
+    getJSON(k){ try { return JSON.parse(localStorage.getItem(k) || 'null'); } catch { return null; } },
+    setJSON(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
+};
+
 /* ============================================================
    Navigation toggle
    ============================================================ */
@@ -44,35 +52,21 @@ if (!isTouch && !prefersReducedMotion) {
 
     const cursor = document.querySelector('.cursor');
     const dot = document.querySelector('.cursor-dot');
-    let tx = 0, ty = 0, cx = 0, cy = 0;
-    let lastTrail = 0;
-    const TRAIL_INTERVAL_MS = 40; // spawn a trail particle every N ms
+    // Start cursor visible at viewport center
+    let tx = window.innerWidth / 2, ty = window.innerHeight / 2;
+    let cx = tx, cy = ty;
+    if (dot) dot.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
+    if (cursor) cursor.style.transform = `translate3d(${cx}px, ${cy}px, 0)`;
 
     document.addEventListener('mousemove', (e) => {
         tx = e.clientX;
         ty = e.clientY;
         if (dot) dot.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
-
-        // Trail particles
-        const now = performance.now();
-        if (now - lastTrail > TRAIL_INTERVAL_MS) {
-            lastTrail = now;
-            const p = document.createElement('div');
-            p.className = 'cursor-trail';
-            p.style.left = `${tx}px`;
-            p.style.top  = `${ty}px`;
-            const dx = (Math.random() - 0.5) * 24;
-            const dy = (Math.random() - 0.5) * 24 + 10;
-            p.style.setProperty('--tx', `${dx}px`);
-            p.style.setProperty('--ty', `${dy}px`);
-            document.body.appendChild(p);
-            setTimeout(() => p.remove(), 700);
-        }
     });
 
     (function animate() {
-        cx += (tx - cx) * 0.18;
-        cy += (ty - cy) * 0.18;
+        cx += (tx - cx) * 0.45;
+        cy += (ty - cy) * 0.45;
         if (cursor) cursor.style.transform = `translate3d(${cx}px, ${cy}px, 0)`;
         requestAnimationFrame(animate);
     })();
@@ -86,10 +80,10 @@ if (!isTouch && !prefersReducedMotion) {
     document.addEventListener('mousedown', () => cursor?.classList.add('is-click'));
     document.addEventListener('mouseup',   () => cursor?.classList.remove('is-click'));
 
-    // Magnetic buttons
+    // Magnetic buttons (subtle)
     document.querySelectorAll('[data-magnetic]').forEach(el => {
-        const STRENGTH = 0.35;
-        const MAX_PULL = 14;
+        const STRENGTH = 0.18;
+        const MAX_PULL = 6;
 
         el.addEventListener('mousemove', (e) => {
             const rect = el.getBoundingClientRect();
@@ -264,10 +258,8 @@ function animateCounts() {
     const TTL = 1000 * 60 * 60; // 1 hour
 
     let data = null;
-    try {
-        const cached = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null');
-        if (cached && Date.now() - cached.ts < TTL) data = cached.data;
-    } catch {}
+    const cached = store.getJSON(CACHE_KEY);
+    if (cached && Date.now() - cached.ts < TTL) data = cached.data;
 
     if (!data) {
         try {
@@ -279,7 +271,7 @@ function animateCounts() {
             const userInfo = await userRes.json();
             const repos = await reposRes.json();
             data = { userInfo, repos };
-            localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), data }));
+            store.setJSON(CACHE_KEY, { ts: Date.now(), data });
         } catch (e) {
             renderStatsError();
             return;
@@ -289,16 +281,8 @@ function animateCounts() {
     render(data);
 
     function render({ userInfo, repos }) {
-        const publicRepos = userInfo.public_repos ?? repos.length;
-        const followers = userInfo.followers ?? 0;
-        const totalForks = repos.reduce((a, r) => a + (r.forks_count || 0), 0);
-        const totalStars = repos.reduce((a, r) => a + (r.stargazers_count || 0), 0);
-
-        setCount('statRepos', publicRepos);
-        setCount('statFollowers', followers);
-        setCount('statForks', totalForks);
-        setCount('statStars', totalStars);
-
+        // Note: stat-card numbers are hard-coded in HTML (data-count) and animated by animateCounts().
+        // API is only used here for the language ring + recent activity (public-data-only, accurate).
         const langCount = {};
         repos.forEach(r => { if (r.language) langCount[r.language] = (langCount[r.language] || 0) + 1; });
         renderRing(langCount);
@@ -306,13 +290,6 @@ function animateCounts() {
         const nonForks = repos.filter(r => !r.fork);
         const recent = [...nonForks].sort((a, b) => new Date(b.pushed_at || b.updated_at) - new Date(a.pushed_at || a.updated_at)).slice(0, 5);
         renderRecent(recent);
-    }
-
-    function setCount(id, n) {
-        const el = document.getElementById(id);
-        if (!el) return;
-        el.dataset.count = n;
-        el.textContent = '0';
     }
 
     function renderRing(langs) {
@@ -492,6 +469,44 @@ document.addEventListener('click', (e) => {
 });
 
 /* ============================================================
+   Copy-to-clipboard for elements with [data-copy]
+   ============================================================ */
+
+document.querySelectorAll('[data-copy]').forEach(el => {
+    el.addEventListener('click', async (e) => {
+        const text = el.dataset.copy;
+        if (!text) return;
+        try {
+            await navigator.clipboard.writeText(text);
+        } catch {
+            // fallback: create temp textarea
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.left = '-9999px';
+            document.body.appendChild(ta);
+            ta.select();
+            try { document.execCommand('copy'); } catch {}
+            ta.remove();
+        }
+
+        // Find the visible copy button to flash (prefer the button itself)
+        const btn = el.classList.contains('contact__copy') ? el : document.querySelector('.contact__copy');
+        if (btn) {
+            btn.classList.add('is-copied');
+            const icon = btn.querySelector('.contact__copy-icon i');
+            const prev = icon ? icon.className : null;
+            if (icon) icon.className = 'fa-solid fa-check';
+            setTimeout(() => {
+                btn.classList.remove('is-copied');
+                if (icon && prev) icon.className = prev;
+            }, 1800);
+        }
+        sfx('tap');
+    });
+});
+
+/* ============================================================
    Easter eggs — konami code + logo dev console
    ============================================================ */
 
@@ -500,8 +515,91 @@ let konamiIdx = 0;
 document.addEventListener('keydown', (e) => {
     const key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
     konamiIdx = (key === KONAMI[konamiIdx]) ? konamiIdx + 1 : 0;
-    if (konamiIdx === KONAMI.length) { konamiIdx = 0; openConsole('  ⬆️ KONAMI UNLOCKED ⬆️  '); }
+    if (konamiIdx === KONAMI.length) {
+        konamiIdx = 0;
+        confetti();
+        openConsole('  ⬆️ KONAMI UNLOCKED ⬆️  ');
+    }
 });
+
+/* ============================================================
+   Confetti burst (pure canvas, no libs)
+   ============================================================ */
+
+function confetti() {
+    if (prefersReducedMotion) return;
+    const c = document.createElement('canvas');
+    c.style.cssText = 'position:fixed;inset:0;z-index:9996;pointer-events:none';
+    document.body.appendChild(c);
+    const ctx = c.getContext('2d');
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const W = c.width  = window.innerWidth  * dpr;
+    const H = c.height = window.innerHeight * dpr;
+    c.style.width  = window.innerWidth + 'px';
+    c.style.height = window.innerHeight + 'px';
+
+    const colors = ['#22d3ee', '#a855f7', '#10b981', '#f59e0b', '#ef4444', '#3b82f6'];
+    const parts = [];
+    for (let i = 0; i < 160; i++) {
+        parts.push({
+            x: W / 2,
+            y: H / 2,
+            vx: (Math.random() - 0.5) * 16 * dpr,
+            vy: (Math.random() - 1.2) * 18 * dpr,
+            size: (4 + Math.random() * 6) * dpr,
+            rot: Math.random() * Math.PI * 2,
+            vr: (Math.random() - 0.5) * 0.3,
+            color: colors[Math.floor(Math.random() * colors.length)],
+            life: 1
+        });
+    }
+
+    const gravity = 0.35 * dpr;
+    (function tick() {
+        ctx.clearRect(0, 0, W, H);
+        let alive = 0;
+        parts.forEach(p => {
+            p.vy += gravity;
+            p.x += p.vx;
+            p.y += p.vy;
+            p.rot += p.vr;
+            p.life -= 0.008;
+            if (p.life > 0 && p.y < H + 50) {
+                alive++;
+                ctx.save();
+                ctx.globalAlpha = Math.max(0, p.life);
+                ctx.translate(p.x, p.y);
+                ctx.rotate(p.rot);
+                ctx.fillStyle = p.color;
+                ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.5);
+                ctx.restore();
+            }
+        });
+        if (alive > 0) requestAnimationFrame(tick);
+        else c.remove();
+    })();
+}
+
+/* ============================================================
+   Scroll progress bar
+   ============================================================ */
+
+(function scrollProgress() {
+    const bar = document.getElementById('scrollBar');
+    if (!bar) return;
+    let raf = null;
+    function update() {
+        raf = null;
+        const h = document.documentElement;
+        const max = h.scrollHeight - h.clientHeight;
+        const p = max > 0 ? (h.scrollTop / max) * 100 : 0;
+        bar.style.width = `${p}%`;
+    }
+    window.addEventListener('scroll', () => {
+        if (!raf) raf = requestAnimationFrame(update);
+    }, { passive: true });
+    update();
+})();
 
 // Logo click opens console (and still nav-home via default link)
 document.querySelectorAll('[data-easter="logo"]').forEach(el => {
@@ -548,7 +646,10 @@ function closeConsole() {
 devClose?.addEventListener('click', closeConsole);
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeConsole();
-    if (e.key === '`' && (e.metaKey || e.ctrlKey)) { e.preventDefault(); openConsole(); }
+    if ((e.key === '`' || e.key.toLowerCase() === 'k') && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        openConsole();
+    }
 });
 
 const history = [];
@@ -595,11 +696,18 @@ const COMMANDS = {
     whoami: () => print('markow_moussa — software engineer, nashville, tn'),
     skills: () => print('python · c++ · java · javascript · sql · html/css · flask · bokeh · mysql · mongodb'),
     projects: () => print([
-        '1. <a href="case-study-artist-network.html">Artist Social Network Visualization</a> — python, flask, bokeh',
-        '2. <a href="https://github.com/markow2010/Artist-Social-Network-App" target="_blank">Artist Social Network App</a> — 3-tier flask',
-        '3. <a href="https://github.com/markow2010/-University-Management-System" target="_blank">University Management System</a> — java',
-        '4. <a href="https://github.com/markow2010/Library-Database-Management-System" target="_blank">Library Database Management System</a> — sql',
-        '5. <a href="https://github.com/markow2010/Chat-Application" target="_blank">Socket Chat Application</a> — python sockets'
+        '<span class="line-accent">public + case-study:</span>',
+        '  1. <a href="case-study-artist-network.html">Artist Social Network Visualization</a> — python, flask, bokeh',
+        '  2. <a href="https://github.com/markow2010/Artist-Social-Network-App" target="_blank">Artist Social Network App</a> — 3-tier flask',
+        '  3. <a href="https://github.com/markow2010/-University-Management-System" target="_blank">University Management System</a> — java',
+        '  4. <a href="https://github.com/markow2010/Library-Database-Management-System" target="_blank">Library Database Management System</a> — sql',
+        '  5. <a href="https://github.com/markow2010/Chat-Application" target="_blank">Socket Chat Application</a> — python sockets',
+        '<span class="line-accent">private client work:</span>',
+        '  6. Transportation Management System 🔒',
+        '  7. Luxury Transportation + Event + Product sites (x3) 🔒',
+        '<span class="line-accent">team collaborations:</span>',
+        '  8. <a href="https://github.com/Mjsims42/SmartCoop-3100" target="_blank">SmartCoop IoT</a> — team hardware project',
+        '  9. <a href="https://github.com/kzriley/mobile-game-suite" target="_blank">Mobile Game Suite</a> — collab'
     ].join('<br>')),
     contact:  () => print('email: <a href="mailto:markow2010@yahoo.com">markow2010@yahoo.com</a>'),
     socials:  () => print('<a href="https://github.com/markow2010" target="_blank">github</a> · <a href="https://www.linkedin.com/in/markow-moussa-585b61250/" target="_blank">linkedin</a> · <a href="https://instagram.com/markow2010" target="_blank">instagram</a>'),
